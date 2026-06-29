@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Criar Conta | Love Finances</title>
+
+</style>
+
+<link rel="stylesheet" href="style.css">
+
+
+</style>
+
+</head>
+
+<body>
+
+<div class="cadastro">
+
+<img src="logo.png" class="logo" alt="Love Finances">
+
+<h1>Criar Conta</h1>
+
+<p>Cadastre-se gratuitamente.</p>
+
+<form id="cadastroForm">
+
+<input
+type="text"
+id="nome"
+placeholder="Nome completo"
+required>
+
+<input
+type="email"
+id="email"
+placeholder="E-mail"
+required>
+
+<input
+type="text"
+id="usuario"
+placeholder="Nome de usuário"
+required>
+
+<input
+type="password"
+id="senha"
+placeholder="Senha"
+required>
+
+<input
+type="password"
+id="confirmarSenha"
+placeholder="Confirmar senha"
+required>
+
+<button type="submit">
+
+Criar Conta
+
+</button>
+
+</form>
+
+<div class="links">
+
+<a href="login.html">
+
+Já possui uma conta? Entrar
+
+</a>
+
+<a href="index.html">
+
+← Voltar ao início
+
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+document.getElementById("cadastroForm").addEventListener("submit",function(e){
+
+e.preventDefault();
+
+const nome=document.getElementById("nome").value;
+
+const email=document.getElementById("email").value;
+
+const usuario=document.getElementById("usuario").value;
+
+const senha=document.getElementById("senha").value;
+
+const confirmar=document.getElementById("confirmarSenha").value;
+
+if(senha!==confirmar){
+
+alert("As senhas não coincidem.");
+
+return;
+
+}
+
+localStorage.setItem("nome",nome);
+localStorage.setItem("email",email);
+localStorage.setItem("usuario",usuario);
+localStorage.setItem("senha",senha);
+
+alert("Conta criada com sucesso!");
+
+window.location.href="login.html";
+
+});
+
+for(let i=0;i<35;i++){
+
+const heart=document.createElement("div");
+
+heart.className="heart";
+
+heart.innerHTML="💖";
+
+heart.style.left=Math.random()*100+"vw";
+
+heart.style.animationDuration=(5+Math.random()*8)+"s";
+
+heart.style.animationDelay=Math.random()*5+"s";
+
+document.body.appendChild(heart);
+
+}
+
+</script>
+
+</body>
+
+</html>

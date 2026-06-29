@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login | Love Finances</title>
+
+</style>
+
+<link rel="stylesheet" href="style.css">
+</style>
+
+</head>
+
+<body>
+
+<div class="login">
+
+<img src="logo.png" class="logo" alt="Love Finances">
+
+<h1>Bem-vindo!</h1>
+
+<p>Entre na sua conta.</p>
+
+<form id="loginForm">
+
+<input
+type="text"
+id="usuario"
+placeholder="Usuário"
+required>
+
+<input
+type="password"
+id="senha"
+placeholder="Senha"
+required>
+
+<button type="submit">
+
+Entrar
+
+</button>
+
+</form>
+
+<div class="links">
+
+<a href="cadastro.html">
+Criar uma conta
+</a>
+
+<a href="#">
+Esqueci minha senha
+</a>
+
+<a href="index.html">
+← Voltar
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+document.getElementById("loginForm").addEventListener("submit",function(e){
+
+e.preventDefault();
+
+const usuario=document.getElementById("usuario").value;
+
+const senha=document.getElementById("senha").value;
+
+const usuarioSalvo=localStorage.getItem("usuario");
+
+const senhaSalva=localStorage.getItem("senha");
+
+if(usuario===usuarioSalvo && senha===senhaSalva){
+
+alert("Login realizado com sucesso!");
+
+window.location.href="dashboard.html";
+
+}else{
+
+alert("Usuário ou senha incorretos.");
+
+}
+
+});
+
+for(let i=0;i<35;i++){
+
+let heart=document.createElement("div");
+
+heart.className="heart";
+
+heart.innerHTML="💖";
+
+heart.style.left=Math.random()*100+"vw";
+
+heart.style.animationDuration=(5+Math.random()*8)+"s";
+
+heart.style.animationDelay=Math.random()*5+"s";
+
+document.body.appendChild(heart);
+
+}
+
+</script>
+
+</body>
+</html>

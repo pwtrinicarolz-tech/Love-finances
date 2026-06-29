@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Calendário | Love Finances</title>
+</style>
+
+
+<link rel="stylesheet" href="style.css">
+
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<img src="logo.png" alt="Love Finances">
+
+<h2>📅 Calendário Financeiro</h2>
+
+<a href="dashboard.html">← Dashboard</a>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Julho 2026</h2>
+
+<div class="calendario" id="calendario"></div>
+
+</div>
+
+<div class="card">
+
+<h2>Novo Compromisso Financeiro</h2>
+
+<input type="date" id="data">
+
+<input type="text" id="titulo" placeholder="Título">
+
+<textarea id="descricao" placeholder="Descrição"></textarea>
+
+<button onclick="salvarEvento()">
+
+Salvar Evento
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>Eventos Agendados</h2>
+
+<div id="listaEventos"></div>
+
+</div>
+
+</div>
+
+<script>
+
+const calendario=document.getElementById("calendario");
+
+for(let i=1;i<=31;i++){
+
+const dia=document.createElement("div");
+
+dia.className="dia";
+
+dia.innerHTML="<strong>"+i+"</strong>";
+
+calendario.appendChild(dia);
+
+}
+
+function salvarEvento(){
+
+const evento={
+
+data:document.getElementById("data").value,
+
+titulo:document.getElementById("titulo").value,
+
+descricao:document.getElementById("descricao").value
+
+};
+
+if(evento.data==""||evento.titulo==""){
+
+alert("Preencha a data e o título.");
+
+return;
+
+}
+
+let eventos=
+
+JSON.parse(localStorage.getItem("eventos"))||[];
+
+eventos.push(evento);
+
+localStorage.setItem("eventos",JSON.stringify(eventos));
+
+mostrarEventos();
+
+}
+
+function mostrarEventos(){
+
+const lista=document.getElementById("listaEventos");
+
+lista.innerHTML="";
+
+const eventos=
+
+JSON.parse(localStorage.getItem("eventos"))||[];
+
+eventos.forEach(e=>{
+
+lista.innerHTML+=`
+
+<div class="evento">
+
+<h3>${e.titulo}</h3>
+
+<p><strong>Data:</strong> ${e.data}</p>
+
+<p>${e.descricao}</p>
+
+</div>
+
+`;
+
+});
+
+}
+
+mostrarEventos();
+
+for(let i=0;i<35;i++){
+
+let h=document.createElement("div");
+
+h.className="heart";
+
+h.innerHTML="💖";
+
+h.style.left=Math.random()*100+"vw";
+
+h.style.animationDuration=(5+Math.random()*8)+"s";
+
+h.style.animationDelay=Math.random()*5+"s";
+
+document.body.appendChild(h);
+
+}
+
+</script>
+
+</body>
+</html>
