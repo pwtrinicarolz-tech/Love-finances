@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Finances 💖</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF69B4', // Rosa
+                        secondary: '#9370DB', // Roxo
+                        lightPink: '#FFE6F2',
+                        darkPurple: '#6A0DAD'
+                    },
+                    fontFamily: {
+                        love: ['"Segoe UI"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            }
+            .heart-bg {
+                background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23FFB6C1' fill-opacity='0.4' d='M10 3.2l.7-.7c2-2 5.2-2 7.2 0s2 5.2 0 7.2L10 18 2.1 9.7c-2-2-2-5.2 0-7.2s5.2-2 7.2 0l.7.7z'/%3E%3C/svg%3E");
+            }
+            .btn-gradient {
+                background: linear-gradient(45deg, #FF69B4, #9370DB);
+            }
+        }
+    </style>
+</head>
+<body class="heart-bg min-h-screen font-love">
+
+<!-- Tela de Login -->
+<div id="loginScreen" class="flex items-center justify-center min-h-screen px-4">
+    <div class="bg-white rounded-3xl shadow-xl p-8 w-full max-w-md border-4 border-secondary">
+        <div class="text-center mb-6">
+            <h1 class="text-4xl font-bold bg-gradient-to-r from-primary to-secondary inline-block text-transparent bg-clip-text text-shadow">Love Finances 💖</h1>
+            <p class="text-gray-600 mt-2">Gerencie seu dinheiro com carinho</p>
+        </div>
+
+        <div class="space-y-4">
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Usuário</label>
+                <input type="text" id="usuario" class="w-full px-4 py-3 rounded-xl border border-pink-300 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Digite seu usuário">
+            </div>
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Senha</label>
+                <input type="password" id="senha" class="w-full px-4 py-3 rounded-xl border border-pink-300 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Digite sua senha">
+            </div>
+            <button onclick="fazerLogin()" class="btn-gradient w-full py-3 rounded-xl text-white font-bold text-lg hover:opacity-90 transition">Entrar 💘</button>
+            <p id="avisoLogin" class="text-red-500 text-center hidden">Usuário ou senha incorretos!</p>
+        </div>
+    </div>
+</div>
+
+<!-- Tela Principal do App -->
+<div id="appScreen" class="hidden p-4 md:p-6 max-w-6xl mx-auto">
+    <header class="bg-white rounded-2xl shadow-md p-4 mb-6 flex flex-wrap justify-between items-center border-l-4 border-primary">
+        <h2 class="text-2xl md:text-3xl font-bold text-darkPurple">Love Finances 💖</h2>
+        <button onclick="sair()" class="text-sm bg-gray-200 px-3 py-1 rounded-lg hover:bg-gray-300">Sair</button>
+    </header>
+
+    <div class="grid md:grid-cols-2 gap-6">
+        <!-- Seção: Exportar / Importar Dados -->
+        <div class="bg-white rounded-2xl shadow-md p-5 border-t-4 border-primary">
+            <h3 class="text-xl font-semibold text-secondary mb-4 flex items-center gap-2">
+                <i class="fa fa-database"></i> Sincronizar Dados
+            </h3>
+            <p class="text-gray-600 mb-4">Compatível com Excel e Google Planilhas</p>
+            <div class="space-y-3">
+                <button onclick="exportarExcel()" class="w-full bg-primary hover:bg-pink-500 text-white py-2 rounded-lg">📤 Exportar para Excel</button>
+                <button onclick="abrirGoogleSheets()" class="w-full bg-secondary hover:bg-purple-500 text-white py-2 rounded-lg">📋 Abrir/Conectar com Google Planilhas</button>
+                <input type="file" id="arquivoExcel" accept=".xlsx,.csv" class="text-sm w-full mt-2">
+                <button onclick="importarExcel()" class="w-full border border-secondary text-secondary py-2 rounded-lg hover:bg-lightPink">📥 Importar Arquivo</button>
+            </div>
+        </div>
+
+        <!-- Seção: Agendamento de Pix -->
+        <div class="bg-white rounded-2xl shadow-md p-5 border-t-4 border-secondary">
+            <h3 class="text-xl font-semibold text-primary mb-4 flex items-center gap-2">
+                <i class="fa fa-paper-plane"></i> Agendar Pix
+            </h3>
+            <div class="space-y-3">
+                <div>
+                    <label class="text-sm text-gray-600">Chave Pix</label>
+                    <input type="text" id="chavePix" class="w-full border border-pink-200 rounded-lg p-2" placeholder="E-mail, CPF, telefone ou aleatória">
+                </div>
+                <div>
+                    <label class="text-sm text-gray-600">Valor R$</label>
+                    <input type="number" step="0.01" min="0.01" id="valorPix" class="w-full border border-pink-200 rounded-lg p-2" placeholder="0,00">
+                </div>
+                <div>
+                    <label class="text-sm text-gray-600">Data do Agendamento</label>
+                    <input type="date" id="dataPix" class="w-full border border-pink-200 rounded-lg p-2">
+                </div>
+                <div>
+                    <label class="text-sm text-gray-600">Descrição</label>
+                    <input type="text" id="descPix" class="w-full border border-pink-200 rounded-lg p-2" placeholder="Ex: Aluguel, Conta de luz">
+                </div>
+                <button onclick="agendarPix()" class="w-full btn-gradient text-white py-2 rounded-lg font-medium hover:opacity-90">💖 Salvar Agendamento</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seção: Calendário -->
+    <div class="bg-white rounded-2xl shadow-md p-5 mt-6 border-t-4 border-darkPurple">
+        <h3 class="text-xl font-semibold text-center text-darkPurple mb-4">📅 Calendário Financeiro</h3>
+        <div id="calendario" class="min-h-[450px]"></div>
+    </div>
+</div>
+
+<script>
+// Sistema de Login simples
+function fazerLogin() {
+    const usuario = document.getElementById('usuario').value.trim();
+    const senha = document.getElementById('senha').value.trim();
+    const aviso = document.getElementById('avisoLogin');
+
+    // Dados padrão - pode alterar depois
+    if(usuario === "admin" && senha === "amor123") {
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('appScreen').classList.remove('hidden');
+        inicializarCalendario();
+    } else {
+        aviso.classList.remove('hidden');
+        setTimeout(() => aviso.classList.add('hidden'), 2500);
+    }
+}
+
+function sair() {
+    document.getElementById('appScreen').classList.add('hidden');
+    document.getElementById('loginScreen').classList.remove('hidden');
+    document.getElementById('usuario').value = "";
+    document.getElementById('senha').value = "";
+}
+
+// Agendamento de Pix
+let eventosPix = [];
+function agendarPix() {
+    const chave = document.getElementById('chavePix').value.trim();
+    const valor = document.getElementById('valorPix').value;
+    const data = document.getElementById('dataPix').value;
+    const desc = document.getElementById('descPix').value || "Pagamento Pix";
+
+    if(!chave || !valor || !data) {
+        alert("Preencha todos os campos obrigatórios!");
+        return;
+    }
+
+    const novoEvento = {
+        title: `💸 Pix: R$ ${parseFloat(valor).toFixed(2)} - ${desc}`,
+        start: data,
+        backgroundColor: '#FF69B4',
+        borderColor: '#9370DB',
+        extendedProps: { chave, valor, tipo: 'pix' }
+    };
+
+    eventosPix.push(novoEvento);
+    calendario.addEvent(novoEvento);
+    salvarDadosLocalmente();
+    alert("✅ Pix agendado com sucesso!");
+    document.getElementById('chavePix').value = "";
+    document.getElementById('valorPix').value = "";
+    document.getElementById('dataPix').value = "";
+    document.getElementById('descPix').value = "";
+}
+
+// Inicializar Calendário
+let calendario;
+function inicializarCalendario() {
+    const el = document.getElementById('calendario');
+    calendario = new FullCalendar.Calendar(el, {
+        initialView: 'dayGridMonth',
+        locale: 'pt-br',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek'
+        },
+        buttonText: { today: 'Hoje', month: 'Mês', week: 'Semana' },
+        events: eventosPix
+    });
+    calendario.render();
+}
+
+// Salvar e carregar dados
+function salvarDadosLocalmente() {
+    localStorage.setItem('loveFinancesDados', JSON.stringify(eventosPix));
+}
+function carregarDadosSalvos() {
+    const dados = localStorage.getItem('loveFinancesDados');
+    if(dados) eventosPix = JSON.parse(dados);
+}
+carregarDadosSalvos();
+
+// Exportar para Excel
+function exportarExcel() {
+    if(eventosPix.length === 0) { alert("Nenhum dado para exportar!"); return; }
+    let csv = "Data;Descrição;Valor;Chave Pix\n";
+    eventosPix.forEach(e => {
+        csv += `${e.start};${e.title.replace("💸 ", "")};${e.extendedProps.valor};${e.extendedProps.chave}\n`;
+    });
+    const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `LoveFinances_${new Date().toLocaleDateString('pt-BR')}.csv`;
+    a.click();
+}
+
+// Conectar com Google Planilhas
+function abrirGoogleSheets() {
+    alert("💡 Para usar com Google Planilhas: Você pode importar/exportar o arquivo CSV gerado aqui, ou conectar via API do Google Sheets posteriormente. Link padrão: https://docs.google.com/spreadsheets/");
+    window.open("https://docs.google.com/spreadsheets/", "_blank");
+}
+
+function importarExcel() {
+    alert("✅ Importação pronta para ser implementada: Você pode ler arquivos CSV/XLSX e adicionar os dados ao calendário com suporte a bibliotecas como SheetJS.");
+}
+</script>
+
+</body>
+</html>
